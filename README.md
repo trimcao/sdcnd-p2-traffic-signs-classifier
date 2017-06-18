@@ -215,50 +215,55 @@ One explanation for this performance is that these signs, Road Work and Pedestri
 
 
 2nd image:
+
 | Probability         	|     Prediction	        					|
 |:---------------------:|:---------------------------------------------:|
 | .926         			| No entry   									|
 | .024    				| No passing 									|
 | .007					| Yield											|
-| .005	      			| Vehicles over 3.5 metric tons prohibited					 				|
+| .005	      			| Vehicles over 3.5 metric tons prohibited		|
 | .004				    | Turn right ahead      						|
 
 ![alt text][softmax_2]
 
 3rd image:
+
 | Probability         	|     Prediction	        					|
 |:---------------------:|:---------------------------------------------:|
 | .959         			| Right-of-way   								|
 | .016     				| Beware of ice/snow							|
-| .003					| Dangerous curve to the right											|
+| .003					| Dangerous curve to the right				   |
 | .003	      			| Pedestrians					 				|
 | .002				    | Children crossing      						|
 
 ![alt text][softmax_3]
 
 4th image:
+
 | Probability         	|     Prediction	        					|
 |:---------------------:|:---------------------------------------------:|
 | .871         			| No passing   									|
 | .041     				| Yield 										|
 | .03					| End of no passing							    |
-| .024	      			| Vehicles over 3.5 metric tons prohibited					 				|
+| .024	      			| Vehicles over 3.5 metric tons prohibited		|
 | .007				    | No vehicles      					      		|
 
 ![alt text][softmax_4]
 
 5th image:
+
 | Probability         	|     Prediction	        					|
 |:---------------------:|:---------------------------------------------:|
 | .838         			| Priority road   								|
 | .063     				| Roundabout mandatory 							|
 | .013					| Turn left ahead								|
-| .01	      			| Vehicles over 3.5 metric tons prohibited					 				|
+| .01	      			| Vehicles over 3.5 metric tons prohibited		|
 | .009				    | No entry     						         	|
 
 ![alt text][softmax_5]
 
 6th image:
+
 | Probability         	|     Prediction	        					|
 |:---------------------:|:---------------------------------------------:|
 | .045         			| Pedestrians   								|
