@@ -20,11 +20,22 @@ The goals / steps of this project are the following:
 [image1]: ./examples/visualization.jpg "Visualization"
 [original]: ./fig/original_image.png "Original Image"
 [augmented]: ./fig/augmented_images.png "Augmented Images"
-[image4]: ./examples/placeholder.png "Traffic Sign 1"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
+[test_image1]: ./test/originals/images-01.jpeg "Traffic Sign 1"
+[test_image2]: ./test/originals/images-03.jpeg "Traffic Sign 2"
+[test_image3]: ./test/originals/images-05.jpeg "Traffic Sign 3"
+[test_image4]: ./test/originals/images-07.jpg "Traffic Sign 4"
+[test_image5]: ./test/originals/images-11.jpeg "Traffic Sign 5"
+[test_image6]: ./test/originals/images-12.jpg "Traffic Sign 6"
+[softmax_1]: ./test/softmax/image-1-softmax.png "Softmax 1"
+[softmax_2]: ./test/softmax/softmax_2.png "Softmax 2"
+[softmax_3]: ./test/softmax/softmax_3.png "Softmax 3"
+[softmax_4]: ./test/softmax/softmax_4.png "Softmax 4"
+[softmax_5]: ./test/softmax/softmax_5.png "Softmax 5"
+[softmax_6]: ./test/softmax/softmax_6.png "Softmax 6"
+[feature_map]: ./fig/feature_map.png "Feature Maps, First Conv Layer"
+[sample_hist]: ./fig/sample_hist.png "Sample Histogram"
+[precision_test]: ./fig/precision_test_set.png "Precision Test Set"
+[recall_test]: ./fig/recall_test_set.png "Recall Test Set"
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.
@@ -51,9 +62,11 @@ signs data set:
 
 ####2. Exploratory visualization of the dataset.
 
-Here is an exploratory visualization of the data set. It is a bar chart showing how the data ...
+Here is a bar chart showing the number of samples for different traffic signs.
 
-![alt text][]
+![alt_text][sample_hist]
+
+It is clear that many sign types do not have many samples. This shows a need for augmenting images.
 
 ###Design and Test a Model Architecture
 
@@ -108,74 +121,149 @@ My final model consisted of the following layers:
 | Softmax				| outputs 43  									|
 
 
-
-
 ####3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
-To train the model, I used an ....
+* The optimizer used is Adam Optimizer.
+* Learning rate is 0.001.
+* Dropout probability is 0.5 for each layer.
+* L2 Regularizer is 10e-4.
+* Number of epochs is 20.
+* Batch size is 128.
 
-####4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
+Other than the dropout probability, I have not tested other hyperparameters. In addition to augment more images, playing with the hyperparameters is important to improve the performance of the model. In the current state, the model is still overfitting.
+
+
+####4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated.
 
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ?
-* test set accuracy of ?
+* training set accuracy of 0.995
+* validation set accuracy of 0.983
+* test set accuracy of 0.974
 
-If an iterative approach was chosen:
+An iterative approach was chosen:
 * What was the first architecture that was tried and why was it chosen?
+    * I used the LeNet-5 as the first architecture because it performed well on MNIST data set, so I wanted to see how it worked with the Traffic Sign dataset. As mentioned in one of the videos by Udacity, LeNet-5 did not performed badly. With augmented images and dropout, it got validation set accuracy of 0.94, comfortably passing the requirement threshold of the project.
 * What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
+    * The main problem is overfitting. After 30 epochs the training set accuracy reached 0.999, but the validation set accuracy was only 0.94. This problem lead to several things: more augmented images, more aggressive dropout, L2 regularization.
+* How was the architecture adjusted and why was it adjusted?
+    * I realized LeNet-5 was too simple for the Traffic Sign dataset. LeNet-5 was created for a simpler problem similar to MNIST, and the number of hidden variables was too small. Although a bit uncertain, I thought the small number of nodes in the neural network was another factor leading to overfitting. After studying two architectures (http://florianmuellerklein.github.io/cnn_streetview/, and https://chatbotslife.com/german-sign-classification-using-deep-learning-neural-networks-98-8-solution-d05656bf51ad), I decided to increase the number of depth of each convolution layer, and increase the number of nodes in each fully-connected layer.
+    * Dropout and L2 regularization were added because they could reduce overfitting.
 * Which parameters were tuned? How were they adjusted and why?
+    * Different dropout probabilities were tested, and I found 0.5 for every layer worked well.
+    * I have not tested different values for L2 regularizer. Probably increasing that value would further reduce overfitting.
+    * Learning rate was still set at 0.001, the default value for Adam Optimizer. It seemed that Adam Optimizer did not have any serious problem with the default learning rate. But I would investigate the learning rate more in the future.
 * What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
+    * Convolution layer are needed because they extract features used to classify the images. If we only use fully-connected layers then the only feature we use is the value of each pixel.
+    * Dropout helps because intuitively, each node in the network has some information related to classification. That means no node has all the information while other has none. Then when we extract the features for prediction (in the end), the nodes work like an ensemble of classifiers. Hence, overfitting is reduced.
 
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
+Precision and Recall for the Test set:
 
+![alt text][]
+
+![alt text][test_image1]
 
 ###Test a Model on New Images
 
 ####1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
 
-Here are five German traffic signs that I found on the web:
+I chose these six traffic signs to compose the test set.
 
-![alt text][image4] ![alt text][image5] ![alt text][image6]
-![alt text][image7] ![alt text][image8]
+![alt text][test_image1] ![alt text][test_image2] ![alt text][test_image3]
+![alt text][test_image4] ![alt text][test_image5] ![alt text][test_image6]
 
-The first image might be difficult to classify because ...
+The first sign (road work) might be difficult to classify because there is another white/red sign behind it that can confuse the classifier.
 
-####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
+The fifth sign (priority road) might be a challenge because of the brightness. The colors in the image are not clear.
+
+Other signs should be straightfordward to classify.
+
+####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set
 
 Here are the results of the prediction:
 
 | Image			        |     Prediction	        					|
 |:---------------------:|:---------------------------------------------:|
-| Stop Sign      		| Stop sign   									|
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+| Road Work     		| Beware of ice/snow							|
+| No Entry     			| No Entry 										|
+| Right-of-way			| Right-of-way									|
+| No Passing      		| No Passing					 				|
+| Priority road			| Priority road      							|
+| Pedestrians   		| Pedestrians          							|
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+The accuracy is 5/6 = 0.833. Since I only have 6 images, the accuracy number does not mean much.
 
-####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
+####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability.
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+The first and last images seem challenging to the model. For the first image, at least the model has the correct sign (road work) with the third best softmax probability.
+For the last image, although making the correct prediction, the model does not appear to be very confident.
+One explanation for this performance is that these signs, Road Work and Pedestrians, are among the signs that do not have a lot of samples. Since it is not easy to obtain more real samples of these signs, I can generate more augmented images.
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+
+1st image:
 
 | Probability         	|     Prediction	        					|
 |:---------------------:|:---------------------------------------------:|
-| .60         			| Stop sign   									|
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| .082         			| Beware of ice/snow   							|
+| .074     				| Roundabout mandatory 							|
+| .071					| Road work										|
+| .058	      			| Right-of-way					 				|
+| .051				    | Children crossing      						|
+![alt text][softmax_1]
 
 
-For the second image ...
+2nd image:
+| Probability         	|     Prediction	        					|
+|:---------------------:|:---------------------------------------------:|
+| .926         			| No entry   									|
+| .024    				| No passing 									|
+| .007					| Yield											|
+| .005	      			| Vehicles over 3.5 metric tons prohibited					 				|
+| .004				    | Turn right ahead      						|
+![alt text][softmax_2]
 
-### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
+3rd image:
+| Probability         	|     Prediction	        					|
+|:---------------------:|:---------------------------------------------:|
+| .959         			| Right-of-way   								|
+| .016     				| Beware of ice/snow							|
+| .003					| Dangerous curve to the right											|
+| .003	      			| Pedestrians					 				|
+| .002				    | Children crossing      						|
+![alt text][softmax_3]
+
+4th image:
+| Probability         	|     Prediction	        					|
+|:---------------------:|:---------------------------------------------:|
+| .871         			| No passing   									|
+| .041     				| Yield 										|
+| .03					| End of no passing							    |
+| .024	      			| Vehicles over 3.5 metric tons prohibited					 				|
+| .007				    | No vehicles      					      		|
+![alt text][softmax_4]
+
+5th image:
+| Probability         	|     Prediction	        					|
+|:---------------------:|:---------------------------------------------:|
+| .838         			| Priority road   								|
+| .063     				| Roundabout mandatory 							|
+| .013					| Turn left ahead								|
+| .01	      			| Vehicles over 3.5 metric tons prohibited					 				|
+| .009				    | No entry     						         	|
+![alt text][softmax_5]
+
+6th image:
+| Probability         	|     Prediction	        					|
+|:---------------------:|:---------------------------------------------:|
+| .045         			| Pedestrians   								|
+| .04     				| Right-of-way 									|
+| .04					| Double curve									|
+| .036	      			| Bicycles crossing				 				|
+| .036				    | Go straight or right        					|
+![alt text][softmax_6]
+
+### Visualizing the Neural Network
+
+![alt text][feature_map]
+
 ####1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
