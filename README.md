@@ -45,9 +45,9 @@ The goals / steps of this project are the following:
 
 ---
 
-###Data Set Summary & Exploration
+### Data Set Summary & Exploration
 
-####1. Provide a basic summary of the data set.
+#### 1. Provide a basic summary of the data set.
 
 I used simple numpy functions to calculate summary statistics of the traffic
 signs data set:
@@ -58,7 +58,7 @@ signs data set:
 * The shape of a traffic sign image is (32, 32)
 * The number of unique classes/labels in the data set is 43
 
-####2. Exploratory visualization of the dataset.
+#### 2. Exploratory visualization of the dataset.
 
 Here is a bar chart showing the number of samples for different traffic signs.
 
@@ -66,9 +66,9 @@ Here is a bar chart showing the number of samples for different traffic signs.
 
 It is clear that many sign types do not have many samples. This shows a need for augmenting images.
 
-###Design and Test a Model Architecture
+### Design and Test a Model Architecture
 
-####1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique.
+#### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique.
 
 Sermanet and LeCunn (http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf) shows that using grayscale images increases the accuracy of the network. Hence, the first preprocessing step is to converting RGB-colorspace images to YUV-colorspace, then use only the Y channel.
 Y-channel value is a linear combination of RGB values. The equation is:
@@ -94,7 +94,7 @@ After doing image augmentation, my training set has 139196 samples. It is import
 Normalization can also be improved with brightness normalization and other fancy methods.
 
 
-####2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
+#### 2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
 My final model consisted of the following layers:
 
@@ -119,7 +119,7 @@ My final model consisted of the following layers:
 | Softmax				| outputs 43  									|
 
 
-####3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
+#### 3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
 * The optimizer used is Adam Optimizer.
 * Learning rate is 0.001.
@@ -154,7 +154,7 @@ An iterative approach was chosen:
     * Convolution layer are needed because they extract features used to classify the images. If we only use fully-connected layers then the only feature we use is the value of each pixel.
     * Dropout helps because intuitively, each node in the network has some information related to classification. That means no node has all the information while other has none. Then when we extract the features for prediction (in the end), the nodes work like an ensemble of classifiers. Hence, overfitting is reduced.
 
-Precision and Recall for the Test set:
+#### Precision and Recall for the Test set.
 
 ![alt text][precision_test]
 
@@ -162,9 +162,9 @@ Precision and Recall for the Test set:
 
 The sign types with low precision or low recall are the ones with less samples in the training set.
 
-###Test a Model on New Images
+### Test a Model on New Images
 
-####1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
+#### 1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
 
 I chose these six traffic signs to compose the test set.
 
@@ -193,10 +193,11 @@ Here are the results of the prediction:
 
 The accuracy is 5/6 = 0.833. Since I only have 6 images, the accuracy number does not mean much.
 
-####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability.
+#### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability.
 
 The first and last images seem challenging to the model. For the first image, at least the model has the correct sign (road work) with the third best softmax probability.
 For the last image, although making the correct prediction, the model does not appear to be very confident.
+
 One explanation for this performance is that these signs, Road Work and Pedestrians, are among the signs that do not have a lot of samples. Since it is not easy to obtain more real samples of these signs, I can generate more augmented images.
 
 
@@ -209,6 +210,7 @@ One explanation for this performance is that these signs, Road Work and Pedestri
 | .071					| Road work										|
 | .058	      			| Right-of-way					 				|
 | .051				    | Children crossing      						|
+
 ![alt text][softmax_1]
 
 
@@ -220,6 +222,7 @@ One explanation for this performance is that these signs, Road Work and Pedestri
 | .007					| Yield											|
 | .005	      			| Vehicles over 3.5 metric tons prohibited					 				|
 | .004				    | Turn right ahead      						|
+
 ![alt text][softmax_2]
 
 3rd image:
@@ -230,6 +233,7 @@ One explanation for this performance is that these signs, Road Work and Pedestri
 | .003					| Dangerous curve to the right											|
 | .003	      			| Pedestrians					 				|
 | .002				    | Children crossing      						|
+
 ![alt text][softmax_3]
 
 4th image:
@@ -240,6 +244,7 @@ One explanation for this performance is that these signs, Road Work and Pedestri
 | .03					| End of no passing							    |
 | .024	      			| Vehicles over 3.5 metric tons prohibited					 				|
 | .007				    | No vehicles      					      		|
+
 ![alt text][softmax_4]
 
 5th image:
@@ -250,6 +255,7 @@ One explanation for this performance is that these signs, Road Work and Pedestri
 | .013					| Turn left ahead								|
 | .01	      			| Vehicles over 3.5 metric tons prohibited					 				|
 | .009				    | No entry     						         	|
+
 ![alt text][softmax_5]
 
 6th image:
@@ -260,10 +266,11 @@ One explanation for this performance is that these signs, Road Work and Pedestri
 | .04					| Double curve									|
 | .036	      			| Bicycles crossing				 				|
 | .036				    | Go straight or right        					|
+
 ![alt text][softmax_6]
 
 ### Visualizing the Neural Network
 
 ![alt text][feature_map]
 
-####1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
+#### 1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
