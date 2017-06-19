@@ -142,17 +142,17 @@ An iterative approach was chosen:
 * What was the first architecture that was tried and why was it chosen?
     * I used the LeNet-5 as the first architecture because it performed well on MNIST data set, so I wanted to see how it worked with the Traffic Sign dataset. As mentioned in one of the videos by Udacity, LeNet-5 did not performed badly. With augmented images and dropout, it got validation set accuracy of 0.94, comfortably passing the requirement threshold of the project.
 * What were some problems with the initial architecture?
-    * The main problem is overfitting. After 30 epochs the training set accuracy reached 0.999, but the validation set accuracy was only 0.94. This problem lead to several things: more augmented images, more aggressive dropout, L2 regularization.
+    * The main problem is overfitting. After 30 epochs the training set accuracy reached 0.999, but the validation set accuracy was only 0.94. This problem leads to addtional tasks: generating ugmented images, using more aggressive dropout, and adding L2 regularization.
 * How was the architecture adjusted and why was it adjusted?
     * I realized LeNet-5 was too simple for the Traffic Sign dataset. LeNet-5 was created for a simpler problem similar to MNIST, and the number of hidden variables was too small. Although a bit uncertain, I thought the small number of nodes in the neural network was another factor leading to overfitting. After studying two architectures (http://florianmuellerklein.github.io/cnn_streetview/, and https://chatbotslife.com/german-sign-classification-using-deep-learning-neural-networks-98-8-solution-d05656bf51ad), I decided to increase the number of depth of each convolution layer, and increase the number of nodes in each fully-connected layer.
     * Dropout and L2 regularization were added because they could reduce overfitting.
 * Which parameters were tuned? How were they adjusted and why?
     * Different dropout probabilities were tested, and I found 0.5 for every layer worked well.
-    * I have not tested different values for L2 regularizer. Probably increasing that value would further reduce overfitting.
+    * I have not tested different values for L2 regularizer. Perhaps increasing that value would further reduce overfitting.
     * Learning rate was still set at 0.001, the default value for Adam Optimizer. It seemed that Adam Optimizer did not have any serious problem with the default learning rate. But I would investigate the learning rate more in the future.
 * What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
-    * Convolution layer are needed because they extract features used to classify the images. If we only use fully-connected layers then the only feature we use is the value of each pixel.
-    * Dropout helps because intuitively, each node in the network has some information related to classification. That means no node has all the information while other has none. Then when we extract the features for prediction (in the end), the nodes work like an ensemble of classifiers. Hence, overfitting is reduced.
+    * Convolution layer are needed because they extract additional features used to classify the images. If we only use fully-connected layers then the only feature we use is the value of each pixel.
+    * Dropout helps because intuitively, each node in the network has some information related to classification. That means we can avoid the situation where some node has all the information while another has none. Then when we extract the features for prediction (in the end), the nodes work like an ensemble, and overfitting is reduced.
 
 #### Precision and Recall for the Test set.
 
@@ -191,7 +191,7 @@ Here are the results of the prediction:
 | Pedestrians   		| Pedestrians          							|
 
 
-The accuracy is 5/6 = 0.833. Since I only have 6 images, the accuracy number does not mean much.
+The accuracy is 5/6 = 0.833. Since I only have 6 images, the accuracy is not statistically significant.
 
 #### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability.
 
@@ -290,4 +290,4 @@ The characteristics that the neural network use are:
 * The outer ring of the sign (the red ring in the original image).
 * The difference between the outer ring and the center of the sign.
 
-Notice that there are multiple neurons that learn the same feature. I think that is the result of dropout.  
+Notice that there are multiple neurons that learn the same feature. I think that is the result of dropout.
