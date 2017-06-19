@@ -72,10 +72,10 @@ It is clear that many sign types do not have many samples. This shows a need for
 
 Sermanet and LeCunn (http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf) shows that using grayscale images increases the accuracy of the network. Hence, the first preprocessing step is to converting RGB-colorspace images to YUV-colorspace, then use only the Y channel.
 Y-channel value is a linear combination of RGB values. The equation is:
-$$\text{Y-channel} = 0.299 \times R + 0.587 \times G + 0.114 \times B$$
+![equation](https://latex.codecogs.com/svg.latex?\text{Y-channel}&space;=&space;0.299&space;\times&space;R&space;&plus;&space;0.587&space;\times&space;G&space;&plus;&space;0.114&space;\times&space;B)
 
 The second step is to normalize the pixel values so we have zero mean and unit variance. For each sample set (training, validation, test), I find the mean and variance among all pixel values, then normalize each pixel value:
-$$\text{pixel} = \frac{\text{pixel} - mean}{stddev}$$
+![equation](https://latex.codecogs.com/svg.latex?\text{pixel}&space;=&space;\frac{\text{pixel}&space;-&space;mean}{stddev})
 
 Here is an example of an original traffic sign image in color.
 
@@ -131,7 +131,7 @@ My final model consisted of the following layers:
 Other than the dropout probability, I have not tested other hyperparameters. In addition to augment more images, playing with the hyperparameters is important to improve the performance of the model. In the current state, the model is still overfitting.
 
 
-####4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated.
+#### 4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated.
 
 My final model results were:
 * training set accuracy of 0.995
@@ -177,7 +177,7 @@ The fifth sign (priority road) might be a challenge because of the brightness. T
 
 Other signs should be straightfordward to classify.
 
-####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set
+#### 2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set
 
 Here are the results of the prediction:
 
@@ -279,3 +279,15 @@ One explanation for this performance is that these signs, Road Work and Pedestri
 ![alt text][feature_map]
 
 #### 1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
+
+We can see that every feature map is not blank, and that is usually a good thing. I think it means no neuron dies (i.e. has blank feature map) while training.
+
+The characteristics that the neural network use are:
+
+* The overall shape of the sign (round shape)
+* The shapes of the things (two cars) in the center.
+* The edge of the sign.
+* The outer ring of the sign (the red ring in the original image).
+* The difference between the outer ring and the center of the sign.
+
+Notice that there are multiple neurons that learn the same feature. I think that is the result of dropout.  
