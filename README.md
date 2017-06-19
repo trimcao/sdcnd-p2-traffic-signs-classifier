@@ -70,7 +70,7 @@ It is clear that many sign types do not have many samples. This shows a need for
 
 #### 1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique.
 
-Sermanet and LeCunn (http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf) shows that using grayscale images increases the accuracy of the network. Hence, the first preprocessing step is to converting RGB-colorspace images to YUV-colorspace, then use only the Y channel.
+Sermanet and LeCun (http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf) shows that using grayscale images increases the accuracy of the network. Hence, the first preprocessing step is to converting RGB-colorspace images to YUV-colorspace, then use only the Y channel.
 Y-channel value is a linear combination of RGB values. The equation is:
 ![equation](https://latex.codecogs.com/svg.latex?\text{Y-channel}&space;=&space;0.299&space;\times&space;R&space;&plus;&space;0.587&space;\times&space;G&space;&plus;&space;0.114&space;\times&space;B)
 
@@ -192,6 +192,8 @@ Here are the results of the prediction:
 
 
 The accuracy is 5/6 = 0.833. Since I only have 6 images, the accuracy is not statistically significant.
+
+It can be said that the model is overfitting because the old test set accuracy is 0.974. It should have been difficult to find a traffic sign that is not correctly classified.
 
 #### 3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability.
 
