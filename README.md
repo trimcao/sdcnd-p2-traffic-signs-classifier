@@ -45,6 +45,18 @@ The goals / steps of this project are the following:
 
 ---
 
+README
+---
+The notebook *Traffic_Sign_Classifier.ipynb* follows the steps needed to train
+a traffic sign classifier.
+- Explore the dataset.
+- Read in and preprocess the data.
+- Train a convolutional neural network with TensorFlow.
+- Test the trained model on new images.
+- Visualize the feature maps of the neural network.
+
+The cells in the notebook should be executed from top to bottom without problem. 
+
 ### Data Set Summary & Exploration
 
 #### 1. Provide a basic summary of the data set.
